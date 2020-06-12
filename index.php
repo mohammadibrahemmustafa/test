@@ -1,5 +1,18 @@
 ﻿<?php
     require_once './db/DBConnector.php';
+    require_once './models/Sale.php';
+
+
+    $salesResult = Sale::select();
+    $sales =[];
+    if ($salesResult['result']){
+        $sales = $salesResult['data'];
+    }
+    $salesSumResult = Sale::sumPrices();
+    $sum = 0;
+    if ($salesSumResult ['result']){
+        $sum= round($salesSumResult ['data']['sumPrices'],2);
+    }
 ?>
 <!DOCTYPE html>
 
@@ -63,7 +76,48 @@
             </div><!-- /.container-fluid -->
         </nav>
         <div class="container">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td>Customer Name</td>
+                    <td>Product Name</td>
+                    <td>Price</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <form method="GET" action="./index.php">
+                        <td>
+                            <input name="customer_name" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input name="product_name" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input name="price" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <button class="btn btn-primary">Search <i class="fa fa-search"></i></button>
+                        </td>
+                    </form>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                    foreach ($sales as $sale){ ?>
+                    <tr>
+                        <td><?php echo $sale['customer_name'] ; ?></td>
+                        <td><?php echo $sale['product_name'] ; ?></td>
+                        <td><?php echo $sale['price'] ; ?></td>
+                    </tr>
+                <?php } ?>
 
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><span id="total_price">Total Price: </span><?php echo $sum; ?></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <!-- jQuery Version - 1.12.3 -->
         <script src="js/jquery-1.12.3.min.js"></script>
