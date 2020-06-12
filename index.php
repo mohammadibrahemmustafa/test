@@ -2,13 +2,29 @@
     require_once './db/DBConnector.php';
     require_once './models/Sale.php';
 
+    $searchParameters =[];
+    if (isset($_GET['customer_name'])){
+        $searchParameters['customer_name'] = $_GET['customer_name'];
+    }else{
+        $searchParameters['customer_name'] = null;
+    }
+    if (isset($_GET['product_name'])){
+        $searchParameters['product_name'] = $_GET['product_name'];
+    }else{
+        $searchParameters['product_name'] = null;
+    }
+    if (isset($_GET['price'])){
+        $searchParameters['price'] = $_GET['price'];
+    }else{
+        $searchParameters['price'] = null;
+    }
 
-    $salesResult = Sale::select();
+    $salesResult = Sale::select($searchParameters);
     $sales =[];
     if ($salesResult['result']){
         $sales = $salesResult['data'];
     }
-    $salesSumResult = Sale::sumPrices();
+    $salesSumResult = Sale::sumPrices($searchParameters);
     $sum = 0;
     if ($salesSumResult ['result']){
         $sum= round($salesSumResult ['data']['sumPrices'],2);
@@ -87,13 +103,13 @@
                 <tr>
                     <form method="GET" action="./index.php">
                         <td>
-                            <input name="customer_name" type="text" class="form-control">
+                            <input name="customer_name" type="text" class="form-control" value="<?php echo   $searchParameters['customer_name'] == null ? '' : htmlspecialchars($searchParameters['customer_name']) ; ?>">
                         </td>
                         <td>
-                            <input name="product_name" type="text" class="form-control">
+                            <input name="product_name" type="text" class="form-control" value="<?php echo $searchParameters['product_name'] == null ? '' : htmlspecialchars($searchParameters['product_name']) ; ?>">
                         </td>
                         <td>
-                            <input name="price" type="text" class="form-control">
+                            <input name="price" type="text" class="form-control" value="<?php echo $searchParameters['price'] == null ? '' : htmlspecialchars($searchParameters['price']) ;?>">
                         </td>
                         <td>
                             <button class="btn btn-primary">Search <i class="fa fa-search"></i></button>
