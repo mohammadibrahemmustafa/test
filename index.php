@@ -63,12 +63,7 @@
             </div><!-- /.container-fluid -->
         </nav>
         <div class="container">
-            <?php
-                $db = DBConnector::getInstance();
-                if ($db != null){
-                    echo 'success';
-                }
-            ?>
+
         </div>
         <!-- jQuery Version - 1.12.3 -->
         <script src="js/jquery-1.12.3.min.js"></script>
