@@ -1,0 +1,12 @@
+@media(max-width:768px) {
+/*mobile devices*/
+}
+@media (min-width: 768px){
+/*tablet and small laptop*/
+}
+@media (min-width: 992px){
+  /*medium screen such as laptops*/
+}
+@media (min-width: 1200px){
+    /*large screen desktop*/
+}
